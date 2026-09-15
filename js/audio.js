@@ -57,6 +57,14 @@ export function initAudio() {
       el.loop = true;
     }
 
+    if (t.startAt > 0) {
+      el.addEventListener('playing', () => {
+        if (el.currentTime < t.startAt) {
+          el.currentTime = t.startAt;
+        }
+      }, { once: true });
+    }
+
     audios.push(el);
   });
 }
@@ -79,11 +87,13 @@ export function updateAudio(cameraZ, delta) {
     fadeOutEl = audios[prev];
   }
 
-  const next  = audios[room];
-  next.volume = 0;
-  next.play().then(() => {
-    next.currentTime = TRACKS[room].startAt;
-  }).catch(() => {});// silently ignored until a user gesture exists
+  const next   = audios[room];
+  const track  = TRACKS[room];
+  next.volume  = 0;
+  if (track.startAt > 0) {
+    next.currentTime = track.startAt;
+  }
+  next.play().catch(() => {});
 
   fadeInEl    = next;
   fadeInStart = performance.now() / 1000;
