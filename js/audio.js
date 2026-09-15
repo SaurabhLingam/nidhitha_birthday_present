@@ -79,10 +79,11 @@ export function updateAudio(cameraZ, delta) {
     fadeOutEl = audios[prev];
   }
 
-  const next      = audios[room];
-  next.currentTime = TRACKS[room].startAt;
-  next.volume      = 0;
-  next.play().catch(() => {});  // silently ignored until a user gesture exists
+  const next  = audios[room];
+  next.volume = 0;
+  next.play().then(() => {
+    next.currentTime = TRACKS[room].startAt;
+  }).catch(() => {});// silently ignored until a user gesture exists
 
   fadeInEl    = next;
   fadeInStart = performance.now() / 1000;
