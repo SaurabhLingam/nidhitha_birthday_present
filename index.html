@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Happy Birthday Nini 🎂</title>
+
+  <!-- Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- THREE.js renders into this canvas -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- ── LOADING SCREEN ── -->
+  <div id="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-spinner"></div>
+      <p class="loading-label">loading your world</p>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loading-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BIRTHDAY SPLASH (shown once on entry) ── -->
+  <div id="birthday-splash" class="hidden">
+    <div class="splash-inner">
+      <p class="splash-sub">for</p>
+      <h1 class="splash-name">Nini</h1>
+      <p class="splash-message">a little world, made just for you 🎂</p>
+      <button id="splash-enter" disabled>loading...</button>
+    </div>
+  </div>
+
+  <!-- ── HUD: room label top-center ── -->
+  <div id="hud" class="hidden">
+    <span id="room-label">Entry Hall</span>
+  </div>
+  
+
+  <!-- ── JOYSTICK (bottom-left) ── -->
+  <div id="joystick-zone" class="hidden">
+    <div id="joystick-base">
+      <div id="joystick-knob"></div>
+    </div>
+  </div>
+
+  <!-- ── INTERACT HINT (bottom-right, shows near a frame) ── -->
+  <div id="interact-hint" class="hidden">
+    <span>tap to open</span>
+  </div>
+
+  <!-- ── ROOM TOAST (context hint on room enter) ── -->
+  <div id="room-toast" class="hidden">
+    <span id="room-toast-text"></span>
+  </div>
+
+  <!-- ── JAZZ MODAL (dog message) ── -->
+  <div id="jazz-modal" class="hidden">
+    <button id="jazz-close">✕</button>
+    <div id="note-inner">
+      <p class="note-salutation">— Jazz 🐾</p>
+      <p class="note-body">i miss you every day. i still remember all our cuddles. i love you. be happy okay 🐾</p>
+    </div>
+  </div>
+
+  <!-- ── NOTE MODAL (cake letter) ── -->
+  <div id="note-modal" class="hidden">
+    <button id="note-close">✕</button>
+    <div id="note-inner">
+      <p class="note-salutation">To Nini,</p>
+      <p class="note-body">You walk into a room and somehow it gets warmer. That's just you: silly, chaotic, a little obsessed with a fictional man in a blindfold, and yet completely irreplaceable.</p>
+      <p class="note-body">You make every ordinary day feel like something worth remembering. We don't always say it, but we mean it every time.</p>
+      <p class="note-sign">Happy Birthday. We love you to bits. 🎂</p>
+    </div>
+  </div>
+
+  <!-- ── PHOTO MODAL (fullscreen photo view) ── -->
+  <div id="photo-modal" class="hidden">
+    <button id="modal-close">✕</button>
+    <div id="modal-inner">
+      <img id="modal-img" src="" alt="" />
+      <p id="modal-caption"></p>
+    </div>
+  </div>
+
+  <!-- ── JS modules (order matters) ── -->
+  <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
