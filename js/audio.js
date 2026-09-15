@@ -22,8 +22,8 @@ const TRACKS = [
   },
   {
     src:      'assets/Ribs.mp3',
-    startAt:  213,    // 3:33 on first entry
-    loopFrom: 0,      // then loops from 0:00 via 'ended' event
+    startAt:  0,
+    loopFrom: 0,
   },
 ];
 
@@ -49,20 +49,16 @@ function seekAndPlay(audio, startAt) {
 
       const onSeeked = () => {
         audio.removeEventListener('seeked', onSeeked);
-        console.log('[audio] seeked fired, currentTime:', audio.currentTime, 'target:', startAt);
         audio.play().then(resolve).catch(reject);
       };
 
       audio.addEventListener('seeked', onSeeked, { once: true });
-      console.log('[audio] setting currentTime to', startAt, '| readyState:', audio.readyState, '| seekable:', audio.seekable.length);
       audio.currentTime = startAt;
     };
 
     if (audio.readyState >= HTMLMediaElement.HAVE_METADATA) {
-      console.log('[audio] metadata ready, playing from', startAt);
       playFromStart();
     } else {
-      console.log('[audio] waiting for metadata, startAt:', startAt);
       audio.addEventListener('loadedmetadata', playFromStart, { once: true });
       audio.load();
     }
