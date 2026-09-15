@@ -90,10 +90,12 @@ export function updateAudio(cameraZ, delta) {
   const next   = audios[room];
   const track  = TRACKS[room];
   next.volume  = 0;
-  if (track.startAt > 0) {
-    next.currentTime = track.startAt;
-  }
-  next.play().catch(() => {});
+  next.play().then(() => {
+    if (track.startAt > 0) {
+      next.currentTime = track.startAt;
+      setTimeout(() => console.log('seeked to:', next.currentTime, 'target was:', track.startAt), 200);
+    }
+  }).catch((e) => console.log('play failed:', e));
 
   fadeInEl    = next;
   fadeInStart = performance.now() / 1000;
