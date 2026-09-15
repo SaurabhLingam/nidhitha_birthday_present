@@ -49,16 +49,20 @@ function seekAndPlay(audio, startAt) {
 
       const onSeeked = () => {
         audio.removeEventListener('seeked', onSeeked);
+        console.log('[audio] seeked fired, currentTime:', audio.currentTime, 'target:', startAt);
         audio.play().then(resolve).catch(reject);
       };
 
       audio.addEventListener('seeked', onSeeked, { once: true });
+      console.log('[audio] setting currentTime to', startAt, '| readyState:', audio.readyState, '| seekable:', audio.seekable.length);
       audio.currentTime = startAt;
     };
 
     if (audio.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      console.log('[audio] metadata ready, playing from', startAt);
       playFromStart();
     } else {
+      console.log('[audio] waiting for metadata, startAt:', startAt);
       audio.addEventListener('loadedmetadata', playFromStart, { once: true });
       audio.load();
     }
