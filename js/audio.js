@@ -39,6 +39,32 @@ let fadeInStart = null;
 let isFading    = false;
 
 
+function seekAndPlay(audio, startAt) {
+  return new Promise((resolve, reject) => {
+    const playFromStart = () => {
+      if (startAt <= 0) {
+        audio.play().then(resolve).catch(reject);
+        return;
+      }
+
+      const onSeeked = () => {
+        audio.removeEventListener('seeked', onSeeked);
+        audio.play().then(resolve).catch(reject);
+      };
+
+      audio.addEventListener('seeked', onSeeked, { once: true });
+      audio.currentTime = startAt;
+    };
+
+    if (audio.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      playFromStart();
+    } else {
+      audio.addEventListener('loadedmetadata', playFromStart, { once: true });
+      audio.load();
+    }
+  });
+}
+
 export function initAudio() {
   TRACKS.forEach((t, i) => {
     const el   = new Audio();
@@ -50,19 +76,10 @@ export function initAudio() {
       // Tung room: native loop won't respect loopFrom, so use 'ended'
       el.loop = false;
       el.addEventListener('ended', () => {
-        el.currentTime = TRACKS[3].loopFrom;
-        el.play().catch(() => {});
+        seekAndPlay(el, TRACKS[3].loopFrom).catch(() => {});
       });
     } else {
       el.loop = true;
-    }
-
-    if (t.startAt > 0) {
-      el.addEventListener('timeupdate', () => {
-        if (el.currentTime < t.startAt - 0.5) {
-          el.currentTime = t.startAt;
-        }
-      });
     }
 
     audios.push(el);
@@ -90,12 +107,7 @@ export function updateAudio(cameraZ, delta) {
   const next   = audios[room];
   const track  = TRACKS[room];
   next.volume  = 0;
-  next.play().then(() => {
-    if (track.startAt > 0) {
-      next.currentTime = track.startAt;
-      setTimeout(() => console.log('seeked to:', next.currentTime, 'target was:', track.startAt), 200);
-    }
-  }).catch((e) => console.log('play failed:', e));
+  seekAndPlay(next, track.startAt).catch(() => {});
 
   fadeInEl    = next;
   fadeInStart = performance.now() / 1000;
