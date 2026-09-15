@@ -58,11 +58,11 @@ export function initAudio() {
     }
 
     if (t.startAt > 0) {
-      el.addEventListener('playing', () => {
-        if (el.currentTime < t.startAt) {
+      el.addEventListener('timeupdate', () => {
+        if (el.currentTime < t.startAt - 0.5) {
           el.currentTime = t.startAt;
         }
-      }, { once: true });
+      });
     }
 
     audios.push(el);
