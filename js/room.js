@@ -286,6 +286,35 @@ export function initRoom(scene, loadManager) {
       ds.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
       group.add(ds);
     });
+    gltfLoader.load('assets/models/easel_standee.glb', (gltf) => {
+      const es = gltf.scene;
+
+      es.traverse(c => {
+        if (c.name === 'Object_4') {
+          const box = new THREE.Box3().setFromObject(c);
+          console.log('canvas size:', box.getSize(new THREE.Vector3()));
+        }
+      });
+
+      const tex = new THREE.TextureLoader().load('assets/photos/her/gojo.jpg');
+      tex.encoding = THREE.sRGBEncoding;
+      tex.flipY = false;
+
+      es.traverse(c => {  
+        if (c.isMesh) {
+          c.castShadow = true;
+          c.receiveShadow = true;
+          if (c.name === 'Object_4') {
+            c.material = new THREE.MeshStandardMaterial({ map: tex });
+          }
+        }
+      });
+
+      es.position.set(-4, 0, -7);
+      es.scale.setScalar(0.125);
+      es.rotation.y = Math.PI / 4;
+      group.add(es);
+    });
   }
 
   function addJazzRoomFurniture(group) {
@@ -412,6 +441,80 @@ export function initRoom(scene, loadManager) {
 
       const box = new THREE.Box3().setFromObject(gojo);
       console.log('gojo size:', box.getSize(new THREE.Vector3()));
+
+    });
+    gltfLoader.load('assets/models/day_14__katsuki_bakugo.glb', (gltf) => {
+      const bak = gltf.scene;
+      bak.position.set(-3, 0, 5);
+      bak.scale.setScalar(2.5);
+      bak.rotation.y = Math.PI + Math.PI / 4;
+      bak.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      group.add(bak);
+
+      const box = new THREE.Box3().setFromObject(bak);
+      console.log('bak size:', box.getSize(new THREE.Vector3()));
+
+    });
+    gltfLoader.load('assets/models/soda_vending_machine.glb', (gltf) => {
+      const sod = gltf.scene;
+      sod.position.set(2, 1, -8);
+      sod.scale.setScalar(1);
+      sod.rotation.y = - Math.PI;
+      sod.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      group.add(sod);
+
+      const box = new THREE.Box3().setFromObject(sod);
+      console.log('sod size:', box.getSize(new THREE.Vector3()));
+
+    });
+    gltfLoader.load('assets/models/final_fight_arcade.glb', (gltf) => {
+      const fff = gltf.scene;
+      fff.position.set(4, 0, 3);
+      fff.scale.setScalar(1);
+      fff.rotation.y = - Math.PI / 2;
+      fff.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      group.add(fff);
+
+      const box = new THREE.Box3().setFromObject(fff);
+      console.log('fff size:', box.getSize(new THREE.Vector3()));
+
+    });
+    gltfLoader.load('assets/models/final_fight_arcade.glb', (gltf) => {
+      const fff = gltf.scene;
+      fff.position.set(4, 0, 4);
+      fff.scale.setScalar(1);
+      fff.rotation.y = - Math.PI / 2;
+      fff.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      group.add(fff);
+
+      const box = new THREE.Box3().setFromObject(fff);
+      console.log('fff size:', box.getSize(new THREE.Vector3()));
+
+    });
+    gltfLoader.load('assets/models/final_fight_arcade.glb', (gltf) => {
+      const fff = gltf.scene;
+      fff.position.set(4, 0, 2);
+      fff.scale.setScalar(1);
+      fff.rotation.y = - Math.PI / 2;
+      fff.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      group.add(fff);
+
+      const box = new THREE.Box3().setFromObject(fff);
+      console.log('fff size:', box.getSize(new THREE.Vector3()));
+
+    });
+    gltfLoader.load('assets/models/roblox-bacon-hair.glb', (gltf) => {
+      const rob = gltf.scene;
+      rob.scale.setScalar(45);
+      rob.position.set(5, 0, 10);
+      rob.rotation.y = Math.PI + Math.PI / 4;
+      rob.traverse(c => { if (c.isMesh) { c.castShadow = true; c.receiveShadow = true; } });
+      group.add(rob);
+
+      const box = new THREE.Box3().setFromObject(rob);
+      const center = box.getCenter(new THREE.Vector3());
+      console.log('rob center:', center);
+      console.log('rob size:', box.getSize(new THREE.Vector3()));
 
     });
     gltfLoader.load('assets/models/tung_tung_tung_sahur.glb', (gltf) => {
